@@ -5,9 +5,11 @@ import numpy as np
 from PIL import Image
 import tensorflow_hub as hub
 
-# Register custom objects
+# Register custom objects from TensorFlow Hub
+custom_objects = {'KerasLayer': hub.KerasLayer}
+
+# Load the pre-trained model with custom objects
 def load_custom_model(model_path):
-    custom_objects = {'KerasLayer': hub.KerasLayer}
     try:
         model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
         st.success("Model loaded successfully!")
