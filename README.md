@@ -1,4 +1,4 @@
-# Monkeypox Measles and Chickenpox Detection using Deep Learning
+# Monkeypox, Measles and Chickenpox Detection using Deep Learning
 
 ## Overview
 This project focuses on classifying images into monkeypox, chickenpox, measles and normal  category through a deep learning model, specifically a fine-tuned ResNet model, and deploying it with Streamlit for easy accessibility. The project aims to provide a quick and reliable method for disease detection using image classification. Various models like DenseNet , Xception , VGG16, VGG19 were tested and fine tuned before finalizing ResNet which gave the best results.
