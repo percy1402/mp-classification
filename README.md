@@ -4,9 +4,9 @@
 This project focuses on classifying images into monkeypox, chickenpox, measles and normal  category through a deep learning model, specifically a fine-tuned ResNet model, and deploying it with Streamlit for easy accessibility. The project aims to provide a quick and reliable method for disease detection using image classification. Various models like DenseNet , Xception , VGG16, VGG19 were tested and fine tuned before finalizing ResNet which gave the best results.
 
 ## Features
-•	Deep Learning Model: Utilizes a fine-tuned ResNet model for high accuracy in detecting monkeypox.
-•	Dataset: Includes images of chickenpox, measles, monkeypox, and normal skin conditions.
-•	Data Augmentation: Enhances the dataset through techniques like rotation, zooming, and flipping.
+•	Deep Learning Model: Utilizes a fine-tuned ResNet model for high accuracy in detecting monkeypox.<br>
+•	Dataset: Includes images of chickenpox, measles, monkeypox, and normal skin conditions.<br>
+•	Data Augmentation: Enhances the dataset through techniques like rotation, zooming, and flipping.<br>
 •	Streamlit Deployment: User-friendly web interface for uploading images and getting instant predictions.
 
 ## Usage
