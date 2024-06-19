@@ -49,7 +49,7 @@ if uploaded_file is not None:
     st.write("Classifying...")
     try:
         predictions = predict_image(image)
-        class_names = ['Chickenpox', 'Measles', 'Monkeypox', 'Normal']  # Update based on your class names
+        class_names = ['Chickenpox', 'Measles', 'Monkeypox', 'Normal']  
         predicted_class_index = np.argmax(predictions)
         predicted_class = class_names[predicted_class_index]
         predicted_accuracy = predictions[0][predicted_class_index]
