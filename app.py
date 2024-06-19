@@ -8,7 +8,7 @@ import tensorflow_hub as hub
 # Register custom objects from TensorFlow Hub
 custom_objects = {'KerasLayer': hub.KerasLayer}
 
-# Load the pre-trained model with custom objects
+@st.cache_resource
 def load_custom_model(model_path):
     try:
         model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
@@ -18,7 +18,7 @@ def load_custom_model(model_path):
         st.error(f"Error loading model: {e}")
         return None
 
-# Load the pre-trained model
+# Load the pre-trained model (ensure this is only done once)
 model = load_custom_model('final-bit.h5')
 
 # Function to preprocess the uploaded image
