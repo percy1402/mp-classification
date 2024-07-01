@@ -8,6 +8,40 @@ import tensorflow_hub as hub
 # Set Streamlit to use dark theme
 st.set_page_config(layout="centered", page_title="Diag-Assist", page_icon="🩺")
 
+# CSS styles to center title, justify text, and increase font size
+st.markdown("""
+    <style>
+    .title {
+        text-align: center;
+        font-size: 2.5em;
+        text-transform: uppercase;
+        margin-bottom: 0.5em;
+    }
+    .paragraph {
+        text-align: justify;
+    }
+    .spaced-paragraph {
+        margin-bottom: 1.5em;
+    }
+    .center-image {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        width: 50%;
+    }
+    .diagnosis {
+        font-size: 1.5em;
+        font-weight: bold;
+        text-align: justify;
+    }
+    .disclaimer {
+        font-weight: bold;
+        color: red;
+        text-transform: uppercase;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # Register custom objects from TensorFlow Hub
 custom_objects = {'KerasLayer': hub.KerasLayer}
 
@@ -56,22 +90,18 @@ def predict_image(img):
         return None
 
 # Streamlit App
-st.title("Diag-Assist")
-st.write("An AI-powered diagnostic tool for identifying Monkeypox, Measles, Chickenpox, and normal skin conditions.")
-
-st.write("""
-Upload a clear picture of the patient's affected skin area.
-The model will analyze the image and provide a diagnosis along with the confidence level.
-Please note that this tool is for research purposes only and should not replace professional medical advice.
-""")
+st.markdown("<h1 class='title'>Diag-Assist</h1>", unsafe_allow_html=True)
+st.markdown("""
+<p class="paragraph spaced-paragraph">An AI-powered diagnostic tool for identifying Monkeypox, Measles, Chickenpox, and normal skin conditions.</p>
+<p class="paragraph">Upload a clear picture of the patient's affected skin area. The model will analyze the image and provide a diagnosis along with the confidence level. Please note that this tool is for research purposes only and should not replace professional medical advice.</p>
+""", unsafe_allow_html=True)
 
 uploaded_file = st.file_uploader("Upload the picture of the patient's affected area...", type=["jpg", "jpeg", "png"], help="Drag and drop the image here or click to browse.")
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
-    st.image(image, caption='The patient image to be analyzed', use_column_width=False, width=300)
+    st.image(image, caption='The patient image to be analyzed', use_column_width=False, width=300, output_format="PNG")
     
-    st.write("Analyzing...")
     predictions = predict_image(image)
     if predictions is not None:
         class_names = ['Chickenpox', 'Measles', 'Monkeypox', 'Normal']  
@@ -79,16 +109,11 @@ if uploaded_file is not None:
         predicted_class = class_names[predicted_class_index]
         predicted_accuracy = predictions[0][predicted_class_index]
 
-        st.write(f'**Diagnosis**: {predicted_class}')
-        st.write(f'**Confidence**: {predicted_accuracy:.2%}')
-        
-        st.write("Class Probabilities:")
-        for i, class_name in enumerate(class_names):
-            st.write(f"{class_name}: {predictions[0][i]:.2%}")
+        st.markdown(f"<p class='diagnosis'>The diagnosis is {predicted_class.upper()} with accuracy {predicted_accuracy:.2%}</p>", unsafe_allow_html=True)
     else:
         st.error("Classification failed. Please ensure the uploaded image is valid and try again.")
 
-st.write("""
+st.markdown("""
 ---
-**Disclaimer**: This application is a research project and has not been verified by any medical organization. It is not intended to replace professional medical advice, diagnosis, or treatment. The results provided by this tool should be used for informational purposes only and should be discussed with a qualified healthcare professional for medical advice.
-""")
+<p class="disclaimer">Disclaimer</p>: This application is a research project and has not been verified by any medical organization. It is not intended to replace professional medical advice, diagnosis, or treatment. The results provided by this tool should be used for informational purposes only and should be discussed with a qualified healthcare professional for medical advice.
+""", unsafe_allow_html=True)
