@@ -5,6 +5,9 @@ import numpy as np
 from PIL import Image
 import tensorflow_hub as hub
 
+# Set Streamlit to use dark theme
+st.set_page_config(layout="centered", page_title="Diag-Assist", page_icon="🩺")
+
 # Register custom objects from TensorFlow Hub
 custom_objects = {'KerasLayer': hub.KerasLayer}
 
@@ -12,7 +15,7 @@ custom_objects = {'KerasLayer': hub.KerasLayer}
 def load_custom_model(model_path):
     try:
         model = tf.keras.models.load_model(model_path, custom_objects=custom_objects)
-        st.success("Model loaded successfully!")
+        st.success("The application is ready to use!")
         return model
     except Exception as e:
         st.error("There was an error loading the model. Please check the model path and ensure it is a valid TensorFlow model.")
@@ -53,17 +56,22 @@ def predict_image(img):
         return None
 
 # Streamlit App
-st.title("Monkeypox, Measles, Chickenpox, and Normal Classification")
+st.title("Diag-Assist")
+st.write("An AI-powered diagnostic tool for identifying Monkeypox, Measles, Chickenpox, and normal skin conditions.")
 
-st.write("Upload an image and the model will predict the class and accuracy.")
+st.write("""
+Upload a clear picture of the patient's affected skin area.
+The model will analyze the image and provide a diagnosis along with the confidence level.
+Please note that this tool is for research purposes only and should not replace professional medical advice.
+""")
 
-uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Upload the picture of the patient's affected area...", type=["jpg", "jpeg", "png"], help="Drag and drop the image here or click to browse.")
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file)
-    st.image(image, caption='Uploaded Image', use_column_width=True)
+    st.image(image, caption='The patient image to be analyzed', use_column_width=False, width=300)
     
-    st.write("Classifying...")
+    st.write("Analyzing...")
     predictions = predict_image(image)
     if predictions is not None:
         class_names = ['Chickenpox', 'Measles', 'Monkeypox', 'Normal']  
@@ -71,7 +79,16 @@ if uploaded_file is not None:
         predicted_class = class_names[predicted_class_index]
         predicted_accuracy = predictions[0][predicted_class_index]
 
-        st.write(f'**Predicted class**: {predicted_class} with **accuracy**: {predicted_accuracy:.2%}')
-        st.write(f'Class probabilities: {predictions}')
+        st.write(f'**Diagnosis**: {predicted_class}')
+        st.write(f'**Confidence**: {predicted_accuracy:.2%}')
+        
+        st.write("Class Probabilities:")
+        for i, class_name in enumerate(class_names):
+            st.write(f"{class_name}: {predictions[0][i]:.2%}")
     else:
         st.error("Classification failed. Please ensure the uploaded image is valid and try again.")
+
+st.write("""
+---
+**Disclaimer**: This application is a research project and has not been verified by any medical organization. It is not intended to replace professional medical advice, diagnosis, or treatment. The results provided by this tool should be used for informational purposes only and should be discussed with a qualified healthcare professional for medical advice.
+""")
