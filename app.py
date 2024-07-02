@@ -95,7 +95,7 @@ st.markdown("""
 <p class="paragraph spaced-paragraph">An AI-powered diagnostic tool for identifying Monkeypox, Measles, Chickenpox, and normal skin conditions.</p>
 <p class="paragraph">Upload a clear picture of the patient's affected skin area. The model will analyze the image and provide a diagnosis along with the confidence level. Please note that this tool is for research purposes only and should not replace professional medical advice.</p>
 """, unsafe_allow_html=True)
-
+st.markdown(" ", unsafe_allow_html=True)
 uploaded_file = st.file_uploader("Upload the picture of the patient's affected area...", type=["jpg", "jpeg", "png"], help="Drag and drop the image here or click to browse.")
 
 if uploaded_file is not None:
