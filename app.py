@@ -95,7 +95,7 @@ st.markdown("""
 <p class="paragraph spaced-paragraph">An AI-powered diagnostic tool for identifying Monkeypox, Measles, Chickenpox, and normal skin conditions.</p>
 <p class="paragraph">Upload a clear picture of the patient's affected skin area. The model will analyze the image and provide a diagnosis along with the confidence level. Please note that this tool is for research purposes only and should not replace professional medical advice.</p>
 """, unsafe_allow_html=True)
-st.markdown("  ", unsafe_allow_html=True)
+
 uploaded_file = st.file_uploader("Upload the picture of the patient's affected area...", type=["jpg", "jpeg", "png"], help="Drag and drop the image here or click to browse.")
 
 if uploaded_file is not None:
@@ -109,7 +109,10 @@ if uploaded_file is not None:
         predicted_class = class_names[predicted_class_index]
         predicted_accuracy = predictions[0][predicted_class_index]
 
-        st.markdown(f"<p class='diagnosis'>The diagnosis is {predicted_class.upper()} with accuracy {predicted_accuracy:.2%}.</p>", unsafe_allow_html=True)
+        if predicted_class == 'Normal':
+            st.markdown(f"<p class='diagnosis'>Based on the picture uploaded, the model predicts {predicted_accuracy:.2%} chances that the patient is not affected by any of the diseases. Please visit the <a href='https://www.cdc.gov/' target='_blank'>CDC site</a> for more information on next steps.</p>", unsafe_allow_html=True)
+        else:
+            st.markdown(f"<p class='diagnosis'>Based on the picture uploaded, the model predicts {predicted_accuracy:.2%} chances of the patient being affected by {predicted_class.upper()}. Please visit the <a href='https://www.cdc.gov/' target='_blank'>CDC site</a> for more information on next steps.</p>", unsafe_allow_html=True)
     else:
         st.error("Classification failed. Please ensure the uploaded image is valid and try again.")
 
